@@ -1,10 +1,9 @@
 import pytest
+
 from app.entities.category.category_codes import CategoryCode
 from app.entities.collections.geo_json import GeoJsonPolygon
 from app.entities.collections.shop.shop_collection import ShopCollection
-from app.entities.collections.shop.shop_document import (
-    ShopDeliveryAreaSubDocument,
-)
+from app.entities.collections.shop.shop_document import ShopDeliveryAreaSubDocument
 
 pytestmark = pytest.mark.asyncio(scope="module")
 
@@ -23,7 +22,7 @@ async def test_shop_insert_one() -> None:
 
     # When
     shop = await ShopCollection.insert_one(
-        name=name, category_codes=category_codes, delivery_areas=delivery_areas
+        name, category_codes, delivery_areas
     )
     # find -> where 절
     cursor = ShopCollection._collection.find({})

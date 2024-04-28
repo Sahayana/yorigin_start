@@ -19,4 +19,19 @@ class ShopCollection:
         name: str,
         category_codes: list[CategoryCode],
         delivery_areas: list[ShopDeliveryAreaSubDocument],
-    ) -> ShopDocument: ...
+    ) -> ShopDocument:
+        result = await cls._collection.insert_one(
+            {
+                "name": name,
+                "category_codes": category_codes,
+                "delivery_areas": [
+                    asdict(delivery_area) for delivery_area in delivery_areas
+                ],
+            }
+        )
+        return ShopDocument(
+            _id=result.inserted_id,
+            name=name,
+            category_codes=category_codes,
+            delivery_areas=delivery_areas,
+        )
